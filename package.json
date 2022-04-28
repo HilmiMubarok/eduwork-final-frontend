@@ -5,20 +5,26 @@
 	"dependencies": {
 		"@headlessui/react": "^1.5.0",
 		"@heroicons/react": "^1.0.6",
+		"@hookform/resolvers": "^2.8.8",
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.0.1",
 		"@testing-library/user-event": "^13.5.0",
 		"axios": "^0.26.1",
+		"debounce-promise": "^3.1.2",
 		"dotenv": "^16.0.0",
+		"dotenv-webpack": "^7.1.0",
 		"flowbite": "^1.4.2",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
+		"react-hook-form": "^7.30.0",
 		"react-infinite-scroll-component": "^6.1.0",
 		"react-redux": "^8.0.1",
 		"react-router-dom": "^6.3.0",
 		"react-scripts": "5.0.1",
+		"react-tabs": "^3.2.3",
 		"redux-thunk": "^2.4.1",
-		"web-vitals": "^2.1.4"
+		"web-vitals": "^2.1.4",
+		"yup": "^0.32.11"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -45,6 +51,7 @@
 		]
 	},
 	"devDependencies": {
+		"@tailwindcss/forms": "^0.5.0",
 		"autoprefixer": "^10.4.4",
 		"postcss": "^8.4.12",
 		"prettier": "^2.6.2",

@@ -1,7 +1,13 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
-import { Fragment, useState } from 'react'
+
+import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
+import { Link } from 'react-router-dom';
 import { MenuIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategory, setKeyword } from '../../app/features/Product/actions'
+import { getCategories } from '../../app/api/product'
+import { totalItemCart } from '../../utils'
 
 const navigation = {
     categories: [
@@ -158,6 +164,17 @@ export default function Index() {
     const [open, setOpen] = useState(false)
     const [chart, setChart] = useState(false)
 
+    const [categories, setCategories] = useState([]);
+    const product = useSelector(state => state.products);
+    const cart = useSelector(state => state.cart);
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        getCategories()
+            .then(({ data }) => setCategories(data))
+    }, []);
+
     return (
         <>
 
@@ -231,7 +248,7 @@ export default function Index() {
                                                                         <p className="text-gray-500">Qty {product.quantity}</p>
 
                                                                         <div className="flex">
-                                                                            <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                                                            <button type="button" className="font-medium text-teal-600 hover:text-teal-500">
                                                                                 Remove
                                                                             </button>
                                                                         </div>
@@ -253,7 +270,7 @@ export default function Index() {
                                             <div className="mt-6">
                                                 <a
                                                     href="#!"
-                                                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                                    className="flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-teal-700"
                                                 >
                                                     Checkout
                                                 </a>
@@ -263,7 +280,7 @@ export default function Index() {
                                                     or{' '}
                                                     <button
                                                         type="button"
-                                                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                                                        className="font-medium text-teal-600 hover:text-teal-500"
                                                         onClick={() => setOpen(false)}
                                                     >
                                                         Continue Shopping<span aria-hidden="true"> &rarr;</span>
@@ -393,14 +410,10 @@ export default function Index() {
 
                                 <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                                     <div className="flow-root">
-                                        <a href="#!" className="-m-2 p-2 block font-medium text-gray-900">
-                                            Sign in
-                                        </a>
-                                    </div>
-                                    <div className="flow-root">
-                                        <a href="#!" className="-m-2 p-2 block font-medium text-gray-900">
-                                            Create account
-                                        </a>
+                                        <Link to={auth.user ? '/account' : '/auth/login'} className="-m-2 p-2 block font-medium text-gray-900">
+                                            {auth.user ? "Hilmi" : "Sign in"}
+                                        </Link>
+
                                     </div>
                                 </div>
 
@@ -468,7 +481,6 @@ export default function Index() {
                                                             leaveTo="opacity-0"
                                                         >
                                                             <Popover.Panel className="absolute top-full inset-x-0 text-sm text-gray-500">
-                                                                {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                                                                 <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
 
                                                                 <div className="relative bg-white">
@@ -540,13 +552,16 @@ export default function Index() {
 
                                 <div className="ml-auto flex items-center">
                                     <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                        <a href="#!" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                            Sign in
-                                        </a>
-                                        <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                                        <a href="#!" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                            Create account
-                                        </a>
+                                        <Link to={auth.user ? '/account' : '/auth/login'} className="-m-2 p-2 block font-medium text-gray-900">
+                                            {auth.user ? "Hilmi" : "Sign in"}
+                                        </Link>
+                                        {
+                                            auth.user && (
+                                                <Link to='/auth/logout' className="-m-2 p-2 block font-medium text-gray-900">
+                                                    Logout
+                                                </Link>
+                                            )
+                                        }
                                     </div>
 
                                     {/* Cart */}
@@ -556,7 +571,7 @@ export default function Index() {
                                                 className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
                                             />
-                                            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{totalItemCart(cart)}</span>
                                             <span className="sr-only">items in cart, view bag</span>
                                         </button>
                                     </div>
