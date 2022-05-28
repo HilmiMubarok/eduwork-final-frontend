@@ -1,208 +1,55 @@
-import React from 'react'
-// import InfiniteScroll from "react-infinite-scroll-component";
-// import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTagsByCategory } from '../../app/api/product';
+import { addItem } from '../../app/features/Cart/actions';
+import { fetchProducts, setPage, toggleTags } from '../../app/features/Product/actions';
+import Pagination from '../Pagination/index';
+import CardProduct from './CardProduct'
+import Tag from '../Tag/index';
 
-const data = {
-    length: 20,
-    products: [
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-    ]
-}
-function Index() {
+
+function Product() {
+
+    const products = useSelector(state => state.products);
+    const dispatch = useDispatch();
+    const [tags, setTags] = useState([]);
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+        getTagsByCategory(products.category)
+            .then(({ data }) => setTags(data));
+    }, [dispatch, products.currentPage, products.category, products.tags, products.keyword]);
+
 
     return (
         <>
             <div className='w-full p-7 min-h-screen'>
                 <div className="container mx-auto">
                     <h2 className='font-bold text-2xl mt-11'>New Product</h2>
+                    <strong>Tags: </strong> <Tag items={tags} onClick={tag => dispatch(toggleTags(tag))} />
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4 lg:grid-cols-5 lg:gap-4">
-
                         {
-                            data.products.map(product => (
-                                <div className="bg-white rounded-lg shadow-lg" >
-                                    <div className="flex flex-col p-5">
-                                        <div className="flex-1">
-                                            <img className="w-full" src={product.imageSrc} alt={product.imageAlt} />
-                                        </div>
-                                        <div className="mt-5">
-                                            <div className="font-bold text-xl mb-2">{product.name}</div>
-                                            <div className="text-gray-600 text-sm">{product.color}</div>
-                                            <div className="flex items-center mt-3">
-                                                <div className="text-gray-500 text-sm">$</div>
-                                                <div className="ml-1 text-3xl">{product.price}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button className='p-4 rounded-b-lg text-white font-bold overflow-hidden bg-teal-600 w-full'>Add to cart</button>
-                                </div>
-                            ))
+                            products.status === 'process' ?
+                                Array.from({ length: 8 }).map((_, idx) => (
+                                    <div>Loading...</div>
+                                )) :
+                                products.data.map((product, i) => {
+                                    return (
+                                        <CardProduct item={product} onAddToCart={() => dispatch(addItem(product))} />
+                                    )
+                                })
                         }
+
                     </div>
                 </div>
+                <Pagination
+                    total={Math.ceil(products.totalItems / products.perPage)}
+                    active={products.currentPage}
+                    onSetPage={page => dispatch(setPage(page))}
+                />
             </div>
         </>
     )
 }
 
-export default Index
+export default Product

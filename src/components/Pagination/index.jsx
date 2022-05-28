@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 
-export default function Index() {
+export default function Pagination() {
     return (
         <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
             <div className="flex-1 flex justify-between sm:hidden">
@@ -88,3 +88,5 @@ export default function Index() {
         </div>
     )
 }
+
+// ! NOT USED ANYMORE !!!!!
